@@ -1,5 +1,7 @@
 import ProductList from "../_components/products/ProductList";
 import SearchBar from "../_components/SearchBar";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
   export const metadata = {
     title: 'Products | Brand',
@@ -8,8 +10,16 @@ import SearchBar from "../_components/SearchBar";
 
 export default async function ProductsPage({searchParams}) {
   
+   const cookieStore = await cookies();
+   const token = cookieStore.get("atoken");
+
+   if(!token){
+    redirect("/login");
+   }
    let query = await searchParams;
    let queryValue = query.q || '';
+
+
 
   return (
     <div className="min-h-screen bg-gray-50">
